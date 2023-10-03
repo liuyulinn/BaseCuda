@@ -7,6 +7,9 @@ from . import _C
 
 def np_multiply(h_A, h_B):
     return _C.np_multiply(h_A, h_B)
+
+def tensor_multiply(h_A, h_B):
+    return _C.tensor_multiply(h_A, h_B)
 # class DiffSP(nn.Module):
 #     def __init__(self):
 #         super().__init__()

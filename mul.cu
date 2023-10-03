@@ -2,7 +2,7 @@
 
 #include <cuda_runtime.h>
 #include <cuda.h>
-#include "mul.h"
+// #include "mul.h"
 
 // const int N = 1024; // Matrix size (N x N)
 

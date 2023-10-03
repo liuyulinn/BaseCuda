@@ -27,26 +27,36 @@ mod = SourceModule(open("mul.cu").read())
 Mul = mod.get_function("Mul")
 
 m, n, k = 256, 128, 64
-h_A = np.ones((m, n), dtype=np.float32)
-h_B = np.ones((n, k), dtype=np.float32) * 2.0
-h_C = np.zeros((m, k), dtype=np.float32)
 
-# Call the CUDA function
-# If I don't manually move h_A, h_B from CPU to GPU, or move h_C from GPU to CPU,
-# I can call cuda.In(h_A) and cuda.Out(h_C)
+total_time = 0
+for i in range(100):
+    # h_A = np.ones((m, n), dtype=np.float32)
+    # h_B = np.ones((n, k), dtype=np.float32) * 2.0
+    # h_C = np.zeros((m, k), dtype=np.float32)
+    h_A = np.random.rand(m, n).astype(np.float32)
+    h_B = np.random.rand(n, k).astype(np.float32) 
+    h_C = np.zeros((m, k), dtype=np.float32)
 
-BLOCK_SIZE = 16
-grid=((k + BLOCK_SIZE) // BLOCK_SIZE, (m + BLOCK_SIZE) // BLOCK_SIZE, 1)
+    # Call the CUDA function
+    # If I don't manually move h_A, h_B from CPU to GPU, or move h_C from GPU to CPU,
+    # I can call cuda.In(h_A) and cuda.Out(h_C)
 
-start = time.time()
-Mul(
-    cuda.In(h_A), cuda.In(h_B), cuda.Out(h_C),
-    np.int32(m), np.int32(n), np.int32(k),
-    block=(BLOCK_SIZE, BLOCK_SIZE, 1), grid = grid
-)
+    BLOCK_SIZE = 16
+    grid=((k + BLOCK_SIZE) // BLOCK_SIZE, (m + BLOCK_SIZE) // BLOCK_SIZE, 1)
 
-print("use time:", time.time() - start)
-print("result", h_C)
+    start = time.time()
+    Mul(
+        cuda.In(h_A), cuda.In(h_B), cuda.Out(h_C),
+        np.int32(m), np.int32(n), np.int32(k),
+        block=(BLOCK_SIZE, BLOCK_SIZE, 1), grid = grid
+    )
+    total_time += time.time() - start
+
+    # print(h_A @ h_B - h_C)
+
+# print("result", h_C)
+print("use time:", total_time)
+
 
 
 '''
