@@ -1,12 +1,26 @@
 # Simple CUDA code for 2 matrix multiplication.
 
-## install
-```
-pip install -e .
-```
+## installation
+It's assume that you have gpu compatible torch and numpy installed. 
 
 ## run
-- ``py-np.py``: numpy version
-- ``py-torch.py``: torch version
-- ``py-cuda.py``: pycuda version
-- ``py-pybind.py``: pybind version
+- numpy version
+```
+python py-np.py
+```
+- pytorch version
+```
+python py-torch.py
+```
+- pycuda version:
+```
+cd pycuda
+pip install pycuda
+python py-cuda.py
+```
+- pybind version
+```
+cd pybind
+pip install -e .
+python py-pybind.py
+```
